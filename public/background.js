@@ -1,69 +1,17 @@
 // focusmate session url example: https://www.focusmate.com/session/1596316500
 
-let lifeline;
-
-keepAlive();
-
-chrome.runtime.onConnect.addListener((port) => {
-  if (port.name === "keepAlive") {
-    lifeline = port;
-    setTimeout(keepAliveForced, 295e3); // 5 minutes minus 5 seconds
-    port.onDisconnect.addListener(keepAliveForced);
-  }
-});
-
-function keepAliveForced() {
-  lifeline?.disconnect();
-  lifeline = null;
-  keepAlive();
-}
-
-async function keepAlive() {
-  if (lifeline) return;
-  for (const tab of await chrome.tabs.query({ url: "*://*/*" })) {
-    try {
-      await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: () => chrome.runtime.connect({ name: "keepAlive" }),
-        // `function` will become `func` in Chrome 93+
-      });
-      chrome.tabs.onUpdated.removeListener(retryOnTabUpdate);
-      return;
-    } catch (e) {}
-  }
-  chrome.tabs.onUpdated.addListener(retryOnTabUpdate);
-}
-
-async function retryOnTabUpdate(tabId, info, tab) {
-  if (info.url && /^(file|https?):/.test(info.url)) {
-    keepAlive();
-  }
-}
-
 const played = {};
 const playedForAll = {};
 const urlCache = {};
 
 function playSound(file) {
-  let url = chrome.runtime.getURL("audio.html");
-
-  // set this string dynamically in your code, this is just an example
-  // this will play success.wav at half the volume and close the popup after a second
-  url += `?volume=1&src=${file}&length=1000`;
-
-  chrome.windows.create({
-    type: "popup",
-    focused: false,
-    top: 1,
-    left: 1,
-    height: 1,
-    width: 1,
-    url,
-  });
+  let audio = new Audio(chrome.runtime.getURL(file));
+  audio.volume = 1;
+  audio.play();
 }
 
-function handleTimeChange(tabId, changeInfo, Tab) {
-  const tabUrl = Tab.url;
+function handleTimeChange(title) {
+  const tabUrl = window.location.href;
   if (urlCache[tabUrl] === false) {
     return;
   } else if (urlCache[tabUrl] === undefined) {
@@ -145,8 +93,7 @@ function handleTimeChange(tabId, changeInfo, Tab) {
 
     let timeLeftChoice;
 
-    const title = changeInfo.title || "Title";
-    const splitTitle = title.split(" ");
+    const splitTitle = `${title}`.split(" ");
     const minutesSecondsArray = splitTitle[0].split(":");
     const minutes = (t) => parseInt(t[0], 10);
     //will still work if for example 00:05 because of the parseInt()
@@ -157,23 +104,22 @@ function handleTimeChange(tabId, changeInfo, Tab) {
     const validTitleStart = validTitle && splitTitle[2] === "start";
     // chosenBefore has a separate function
     // if the user chose a start alarm check if title is "until start"
-    if (chosenBefore) {
-      if (
-        validTitleStart &&
-        minutes(minutesSecondsArray) === 0 &&
-        seconds(minutesSecondsArray) <= 6
-      ) {
-        console.log("should play start alarm", title);
-        playSound(soundLink);
-        chosenBefore = false;
-        //it will only turn true
-        played.before = true;
-        // wait 10 seconds and then set played.before to false so if chosenBefore can get set to true once again
-        // and the next time the parsed title meets the conditions, if it's not within a
-        // 10 second range from the last time the alarm played (a new session could start in 15 minutes)
-        // the alarm will play again
-        setTimeout(() => (played.before = false), 10000);
-      }
+    if (
+      chosenBefore &&
+      validTitleStart &&
+      minutes(minutesSecondsArray) === 0 &&
+      seconds(minutesSecondsArray) <= 6
+    ) {
+      console.log("should play start alarm", title);
+      playSound(soundLink);
+      chosenBefore = false;
+      //it will only turn true
+      played.before = true;
+      // wait 10 seconds and then set played.before to false so if chosenBefore can get set to true once again
+      // and the next time the parsed title meets the conditions, if it's not within a
+      // 10 second range from the last time the alarm played (a new session could start in 15 minutes)
+      // the alarm will play again
+      setTimeout(() => (played.before = false), 10000);
     }
 
     if (!played[tabUrl]) {
@@ -217,4 +163,17 @@ function handleTimeChange(tabId, changeInfo, Tab) {
   });
 }
 
-chrome.tabs.onUpdated.addListener(handleTimeChange);
+// select the target node
+var target = document.querySelector("title");
+
+// create an observer instance
+var observer = new MutationObserver(function (mutations) {
+  // We need only first event and only new value of the title
+  handleTimeChange(mutations[0].target.innerText);
+});
+
+// configuration of the observer:
+var config = { subtree: true, characterData: true, childList: true };
+
+// pass in the target node, as well as the observer options
+observer.observe(target, config);
