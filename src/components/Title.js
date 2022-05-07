@@ -26,11 +26,11 @@ export default function Title() {
   return (
     <div className={classes.root}>
       <Typography variant="h4" color="inherit">
-        <span className={classes.bold}>Focus</span>
-        <span className={classes.light}>alarm</span>
+        <span className={classes.light}>Focusmate </span>
+        <span className={classes.bold}>Helper</span>
       </Typography>
       <Typography variant="h6" color="inherit">
-      An alarm for <span className={classes.bold}>Focus</span><span className={classes.light}>mate</span>
+        Helper tools for Focusmate
       </Typography>
     </div>
   );

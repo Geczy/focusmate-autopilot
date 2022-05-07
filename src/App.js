@@ -5,13 +5,7 @@ import TimeCheckForm from "./components/TimeCheckForm";
 import SoundRadioForm from "./components/SoundRadioForm";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
-const font = "'Nunito', sans-serif";
-
-const theme = createTheme({
-  typography: {
-    fontFamily: font,
-  },
-});
+const theme = createTheme();
 
 function App() {
   return (

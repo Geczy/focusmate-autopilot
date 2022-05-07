@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(2),
     display: "flex",
@@ -63,10 +63,10 @@ const sampleAudios = [
 ];
 
 export default function SoundRadioForm() {
-  const [value, setValue] = React.useState("Bell");
+  const [value, setValue] = React.useState(sampleAudios[0].url);
 
   React.useEffect(() => {
-    chrome.storage.sync.get(["sound"], (result) => {
+    chrome?.storage?.sync?.get(["sound"], (result) => {
       let url = result.sound;
       if (!result.sound || !sampleAudios.find((a) => a.url === result.sound)) {
         console.log("setting a default");
@@ -78,7 +78,7 @@ export default function SoundRadioForm() {
   }, []);
 
   const setStorage = (soundVal) => {
-    chrome.storage.sync.set({ sound: soundVal }, () => {
+    chrome?.storage?.sync?.set({ sound: soundVal }, () => {
       console.log(`sound is set to ${soundVal}`);
     });
     setValue(soundVal);
@@ -88,36 +88,29 @@ export default function SoundRadioForm() {
     const soundValue = event.target.value;
     setStorage(soundValue);
   };
-  const playSample = (url) => {
-    let sampleSound = new Audio(url);
-    sampleSound.play();
-  };
   const classes = useStyles();
 
   return (
     <FormControl className={classes.root} component="fieldset">
       <FormLabel component="legend">Sound</FormLabel>
+      <audio autoPlay controls src={value}>
+        Your browser does not support the audio element.
+      </audio>
       <RadioGroup
         aria-label="sound"
-        name="sound1"
+        name="sound-file"
         value={value}
         onChange={selectSound}
         className={classes.buttons}
       >
-        {sampleAudios.map((audio) => (
-          <span>
+        {sampleAudios.map((audio, i) => (
+          <span key={i}>
             <FormControlLabel
               value={audio.url}
               className={classes.label}
               control={<Radio />}
               label={audio.title}
             />
-            <IconButton
-              onClick={() => playSample(audio.url)}
-              aria-label={`Play sample ${audio.title}`}
-            >
-              <PlayCircleOutlineIcon />
-            </IconButton>
           </span>
         ))}
       </RadioGroup>
