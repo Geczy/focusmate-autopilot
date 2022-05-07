@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+
+  "name": "Focusalarm",
+  "description": "An Alarm for Focusmate.com: Before the session starts and ends, different options of times and sounds",
+  "version": "5.0.0",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Open the popup"
+  },
+  "icons": {
+    "128": "bell-logo.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["tabs", "storage", "activeTab", "scripting"],
+  "host_permissions": ["*://*.focusmate.com/", "*://*.csb.app/"]
+}
