@@ -19,28 +19,65 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   label: {
-    minWidth: 90
-  }
+    minWidth: 90,
+  },
 }));
+
+const sampleAudios = [
+  {
+    title: "Level up",
+    url: "https://cdn.freesound.org/previews/320/320654_5260872-lq.mp3",
+  },
+  {
+    title: "Level complete",
+    url: "https://cdn.freesound.org/previews/122/122255_1074082-lq.mp3",
+  },
+  {
+    title: "Pizzicato Orchestral Roll 6",
+    url: "https://cdn.freesound.org/previews/145/145457_2615119-lq.mp3",
+  },
+  {
+    title: "Sorry synth",
+    url: "https://cdn.freesound.org/previews/348/348644_3706663-lq.mp3",
+  },
+  {
+    title: "Success",
+    url: "https://cdn.freesound.org/previews/171/171671_2437358-lq.mp3",
+  },
+  {
+    title: "Forest farmland",
+    url: "https://cdn.freesound.org/previews/632/632286_1648170-lq.mp3",
+  },
+  {
+    title: "Magic",
+    url: "https://cdn.freesound.org/previews/632/632336_3381595-lq.mp3",
+  },
+  {
+    title: "Mighty morph",
+    url: "https://cdn.freesound.org/previews/631/631901_13944160-lq.mp3",
+  },
+  {
+    title: "Dramatic",
+    url: "https://cdn.freesound.org/previews/632/632237_13682949-lq.mp3",
+  },
+];
 
 export default function SoundRadioForm() {
   const [value, setValue] = React.useState("Bell");
 
   React.useEffect(() => {
     chrome.storage.sync.get(["sound"], (result) => {
-      if(!result.sound){
-        setStorage("Bell");
+      let url = result.sound;
+      if (!result.sound || !sampleAudios.find((a) => a.url === result.sound)) {
+        console.log("setting a default");
+        url = sampleAudios[0].url;
+        setStorage(url);
       }
-      const sound = result.sound || "Bell";
-      if (sound === "T.rex roar") {
-        console.log("setting to bleat");
-        setStorage("Bleat");
-      }
-      setValue(sound);
+      setValue(url);
     });
   }, []);
-  
-  const setStorage = soundVal => {
+
+  const setStorage = (soundVal) => {
     chrome.storage.sync.set({ sound: soundVal }, () => {
       console.log(`sound is set to ${soundVal}`);
     });
@@ -50,9 +87,9 @@ export default function SoundRadioForm() {
   const selectSound = (event) => {
     const soundValue = event.target.value;
     setStorage(soundValue);
-  }
-  const playSample = (name) => {
-    let sampleSound = new Audio(`/${name}.mp3`);
+  };
+  const playSample = (url) => {
+    let sampleSound = new Audio(url);
     sampleSound.play();
   };
   const classes = useStyles();
@@ -67,33 +104,22 @@ export default function SoundRadioForm() {
         onChange={selectSound}
         className={classes.buttons}
       >
-        <span>
-          <FormControlLabel value="Bell" className={classes.label} control={<Radio />} label="Bell" />
-          <IconButton
-            onClick={() => playSample("bell")}
-            aria-label="play-sample-bell"
-          >
-            <PlayCircleOutlineIcon />
-          </IconButton>
-        </span>
-        <span>
-          <FormControlLabel value="Bleat" className={classes.label} control={<Radio />} label="Bleat" />
-          <IconButton
-            onClick={() => playSample("bleat")}
-            aria-label="play-sample-bleat"
-          >
-            <PlayCircleOutlineIcon />
-          </IconButton>
-        </span>
-        <span>
-          <FormControlLabel value="Chirp"  className={classes.label} control={<Radio />} label="Chirp" />
-          <IconButton
-            onClick={() => playSample("chirp")}
-            aria-label="play-sample-chirp"
-          >
-            <PlayCircleOutlineIcon />
-          </IconButton>
-        </span>
+        {sampleAudios.map((audio) => (
+          <span>
+            <FormControlLabel
+              value={audio.url}
+              className={classes.label}
+              control={<Radio />}
+              label={audio.title}
+            />
+            <IconButton
+              onClick={() => playSample(audio.url)}
+              aria-label={`Play sample ${audio.title}`}
+            >
+              <PlayCircleOutlineIcon />
+            </IconButton>
+          </span>
+        ))}
       </RadioGroup>
     </FormControl>
   );

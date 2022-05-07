@@ -17,12 +17,5 @@
       "js": ["background.js"]
     }
   ],
-  "web_accessible_resources": [
-    {
-      "resources": ["bleat.mp3", "chirp.mp3", "bell.mp3"],
-      "matches": ["https://www.focusmate.com/*", "https://yrnj3.csb.app/*"]
-    }
-  ],
-  "permissions": ["tabs", "storage", "activeTab", "scripting"],
-  "host_permissions": ["https://www.focusmate.com/", "https://yrnj3.csb.app/"]
+  "permissions": ["tabs", "storage", "activeTab", "scripting"]
 }

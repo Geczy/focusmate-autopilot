@@ -4,8 +4,8 @@ const played = {};
 const playedForAll = {};
 const urlCache = {};
 
-function playSound(file) {
-  let audio = new Audio(chrome.runtime.getURL(file));
+function playSound(url) {
+  let audio = new Audio(url);
   audio.volume = 1;
   audio.play();
 }
@@ -88,8 +88,7 @@ function handleTimeChange(title) {
       }
     }
 
-    const chosenSound = result.sound || "Bell";
-    const soundLink = `/${chosenSound.toLowerCase()}.mp3`;
+    const soundLink = result.sound;
 
     let timeLeftChoice;
 
