@@ -4,8 +4,6 @@ import { Radio, RadioGroup } from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import IconButton from "@material-ui/core/IconButton";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
@@ -93,9 +91,6 @@ export default function SoundRadioForm() {
   return (
     <FormControl className={classes.root} component="fieldset">
       <FormLabel component="legend">Sound</FormLabel>
-      <audio autoPlay controls src={value}>
-        Your browser does not support the audio element.
-      </audio>
       <RadioGroup
         aria-label="sound"
         name="sound-file"
@@ -111,6 +106,11 @@ export default function SoundRadioForm() {
               control={<Radio />}
               label={audio.title}
             />
+            {audio.url === value && (
+              <audio autoPlay controls src={value}>
+                Your browser does not support the audio element.
+              </audio>
+            )}
           </span>
         ))}
       </RadioGroup>
