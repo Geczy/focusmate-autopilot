@@ -5,7 +5,7 @@ hooks:
     - rm -f zips/focusmate-autopilot-v*.zip
     - bash chrome/bump-version.sh ${version}
     - yarn build
-    - cd dist/ && bestzip focusmate-autopilot-v${version}.zip * && mv focusmate-autopilot-v* ../zips/ && cd ..
+    - mkdir -p zips && cd dist/ && bestzip focusmate-autopilot-v${version}.zip * && mv focusmate-autopilot-v* ../zips/ && cd ..
   after:release: rm -f zips/focusmate-autopilot-v*.zip
 git:
   requireCleanWorkingDir: false
