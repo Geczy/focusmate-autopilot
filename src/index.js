@@ -1,5 +1,5 @@
-import "./frame-messager";
-import "./mute-checker";
+import './frame-messager';
+import './mute-checker';
 
 function playSound(url) {
   let audio = new Audio(url);
@@ -9,7 +9,7 @@ function playSound(url) {
 
 function getSecondsRemaining(title) {
   try {
-    const [minutes, seconds] = title.split(" ")[0].split(":");
+    const [minutes, seconds] = title.split(' ')[0].split(':');
     return Number(seconds) + (Number(minutes) || 0) * 60 || 0;
   } catch (e) {
     return 0;
@@ -20,10 +20,10 @@ function handleTimeChange(title) {
   const url = window.location.href;
 
   if (
-    !url.includes("/session") &&
-    !url.includes("/dashboard") &&
-    !url.includes("csb.app") &&
-    !url.includes("localhost")
+    !url.includes('/session') &&
+    !url.includes('/dashboard') &&
+    !url.includes('csb.app') &&
+    !url.includes('localhost')
   ) {
     return;
   }
@@ -34,7 +34,7 @@ function handleTimeChange(title) {
     const { playAtSecond, sound } = result;
 
     // Play at end?
-    if (title.includes("Finished!")) {
+    if (title.includes('Finished!')) {
       playSound(sound);
       return;
     }
@@ -47,8 +47,8 @@ function handleTimeChange(title) {
   });
 }
 
-window.addEventListener("load", () => {
-  const target = document.querySelector("title");
+window.addEventListener('load', () => {
+  const target = document.querySelector('title');
   if (target) {
     const observer = new MutationObserver(function (mutations) {
       handleTimeChange(mutations[0].target.innerText);
