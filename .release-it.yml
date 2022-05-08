@@ -2,14 +2,14 @@ npm:
   publish: false
 hooks:
   after:bump:
-    - rm -f zips/tinder-autopilot-v*.zip
+    - rm -f zips/focusmate-autopilot-v*.zip
     - bash chrome/bump-version.sh ${version}
     - yarn build
-    - cd dist/ && bestzip tinder-autopilot-v${version}.zip * && mv tinder-autopilot-v* ../zips/ && cd ..
-  after:release: rm -f zips/tinder-autopilot-v*.zip
+    - cd dist/ && bestzip focusmate-autopilot-v${version}.zip * && mv focusmate-autopilot-v* ../zips/ && cd ..
+  after:release: rm -f zips/focusmate-autopilot-v*.zip
 git:
   requireCleanWorkingDir: false
 github:
   assets:
-    - zips/tinder-autopilot-v*.zip
+    - zips/focusmate-autopilot-v*.zip
   release: true
