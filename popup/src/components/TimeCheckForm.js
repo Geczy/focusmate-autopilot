@@ -9,7 +9,7 @@ export default function TimeCheckForm() {
   const [playAtSecond, setPlayAtSecond] = React.useState(20);
   useEffect(() => {
     chrome?.storage?.sync?.get(["playAtSecond"], (result) => {
-      setPlayAtSecond(result.playAtSecond);
+      setPlayAtSecond(result.playAtSecond || 20);
     });
   }, []);
 

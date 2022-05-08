@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+
+  "name": "Autopilot for Focusmate",
+  "short_name": "Focusmate Auto",
+  "homepage_url": "https://github.com/Geczy/focusmate-autopilot/",
+  "description": "Not just an alarm for focusmate!",
+  "author": "A Lonely Coder",
+  "version": "0.0.1",
+  "action": {
+    "default_popup": "popup/index.html",
+    "default_title": "Open the options"
+  },
+  "icons": {
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.focusmate.com/*",
+        "*://yrnj3.csb.app/*",
+        "*://focusmate.daily.co/*"
+      ],
+      "js": ["main.js"],
+      "all_frames": true
+    }
+  ],
+  "permissions": ["storage"],
+  "host_permissions": [
+    "*://*.focusmate.com/*",
+    "*://*.csb.app/*",
+    "*://focusmate.daily.co/*"
+  ]
+}
