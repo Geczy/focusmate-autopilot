@@ -18,6 +18,11 @@ function start() {
       const partnerVideo = document.querySelector('video');
       if (partnerVideo) partnerVideo.requestPictureInPicture();
     }
+
+    if (e.data === 'EXIT PNP') {
+      console.log('Disabling pnp!');
+      document.exitPictureInPicture();
+    }
   });
 }
 

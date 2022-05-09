@@ -23,6 +23,8 @@ function start() {
       console.log('We are unmuted, unmute them too if they wanna talk');
       const partnerAudio = document.querySelector('.audioTracks > audio');
       if (partnerAudio) {
+        const frame = document.querySelector('iframe[src*="daily.co"]');
+        if (frame) frame.contentWindow.postMessage('EXIT PNP', '*');
         partnerAudio.muted = false;
         const muteIcon = document.querySelector('.mic.static');
         if (muteIcon) {
