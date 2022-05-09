@@ -19,7 +19,7 @@ function start() {
     console.log('Audio changed', isMuted);
 
     // We unmuted, unmute them too if they wanna talk
-    if (!isMuted.me && !isMuted.partner) {
+    if (!isMuted.me) {
       console.log('We are unmuted, unmute them too if they wanna talk');
       const partnerAudio = document.querySelector('.audioTracks > audio');
       if (partnerAudio) {
@@ -33,9 +33,8 @@ function start() {
       return;
     }
 
-    // We muted, so force mute them too if they haven't already
-    if (isMuted.me && !isMuted.partner) {
-      console.log("We muted, so force mute them too if they haven't already");
+    if (isMuted.me) {
+      console.log('We muted, so force mute them too');
       const partnerAudio = document.querySelector('.audioTracks > audio');
       if (partnerAudio) {
         partnerAudio.muted = true;

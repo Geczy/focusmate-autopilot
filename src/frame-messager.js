@@ -12,6 +12,11 @@ function start() {
         muteButton.click();
       }
     }
+
+    if (e.data === 'PNP') {
+      const partnerVideo = document.querySelector('video');
+      if (partnerVideo) partnerVideo.requestPictureInPicture();
+    }
   });
 }
 
