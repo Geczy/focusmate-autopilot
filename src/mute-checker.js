@@ -36,6 +36,9 @@ function start() {
     if (isMuted.me) {
       console.log('We muted, so force mute them too');
       const partnerAudio = document.querySelector('.audioTracks > audio');
+      const frame = document.querySelector('iframe[src*="daily.co"]');
+      if (frame) frame.contentWindow.postMessage('PNP', '*');
+
       if (partnerAudio) {
         partnerAudio.muted = true;
         const muteIcon = document.querySelector('.mic.static');

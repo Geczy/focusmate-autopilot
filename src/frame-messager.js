@@ -14,6 +14,7 @@ function start() {
     }
 
     if (e.data === 'PNP') {
+      console.log('Enabling pnp!');
       const partnerVideo = document.querySelector('video');
       if (partnerVideo) partnerVideo.requestPictureInPicture();
     }
