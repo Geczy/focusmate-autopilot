@@ -1,6 +1,6 @@
 {
   "name": "focusmate-autopilot",
-  "version": "7.1.0",
+  "version": "7.2.0",
   "description": "Don't waste any more time doing manual tasks on Focusmate. Autopilot will do it for you.",
   "main": "src/index.js",
   "repository": "https://github.com/Geczy/focusmate-autopilot.git",
@@ -11,7 +11,7 @@
     "minor": "dotenv release-it -- minor --ci",
     "patch": "dotenv release-it -- patch --ci",
     "start": "webpack --mode development --watch",
-    "build": "webpack --mode production"
+    "build": "cd popup && yarn build && cd .. && webpack --mode production"
   },
   "dependencies": {
     "lodash": "^4.17.21"
