@@ -33,7 +33,8 @@ function handleTimeChange(title) {
   chrome.storage.sync.get(null, (result) => {
     const { playAtSecond, sound } = result;
 
-    // Play at end?
+    // Play at end
+    // TODO make this a setting
     if (title.includes('Finished!')) {
       playSound(sound);
       return;
