@@ -13,3 +13,4 @@ build
 zips
 .env
 .yarn
+.yarnrc.yml
