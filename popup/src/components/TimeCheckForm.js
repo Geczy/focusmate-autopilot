@@ -7,8 +7,10 @@ export default function TimeCheckForm() {
   const classes = useStyles();
 
   const [playAtSecond, setPlayAtSecond] = React.useState(20);
+
   useEffect(() => {
     chrome?.storage?.sync?.get(["playAtSecond"], (result) => {
+      console.log('Test useEffect', result)
       setPlayAtSecond(result.playAtSecond || 20);
     });
   }, []);
@@ -16,8 +18,9 @@ export default function TimeCheckForm() {
   const handleTimeChoice = (event) => {
     const { value } = event.target;
     chrome?.storage?.sync?.set({ playAtSecond: value }, () => {
-      setPlayAtSecond(value);
+      console.log(`time is set to ${value}`)
     });
+    setPlayAtSecond(value);
   };
 
   return (
@@ -27,8 +30,8 @@ export default function TimeCheckForm() {
         onChange={handleTimeChoice}
         type="number"
         name="playAtSecond"
-        label="Play when x seconds left"
-        defaultValue={playAtSecond}
+        label={`Play when ${playAtSecond} seconds left`}
+        value={playAtSecond}
       />
     </FormControl>
   );

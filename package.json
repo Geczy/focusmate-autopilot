@@ -44,5 +44,6 @@
     "defaults",
     "not IE 11",
     "maintained node versions"
-  ]
+  ],
+  "packageManager": "yarn@3.2.0"
 }
