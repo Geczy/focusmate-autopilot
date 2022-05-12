@@ -12,3 +12,4 @@ build
 *.log
 zips
 .env
+.yarn
