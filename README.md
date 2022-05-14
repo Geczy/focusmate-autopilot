@@ -1,3 +1,20 @@
+# Focusmate Autopilot
+
+Making your life easier
+
+## Features
+
+* Notify sounds
+  * Not in a session, 20s before one starts
+  * While in a session, 20s before it ends
+* Picture-in-picture
+  * Automatically turns on when you mute
+  * Turns off when you unmute
+* When you mute, will force-mute the other person
+  * Does not mute the tab, so finished sound will still play! Only mutes their mic
+
+---
+
 ## Local development
 
 ### Popup
