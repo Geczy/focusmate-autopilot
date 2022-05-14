@@ -7,7 +7,7 @@ function start() {
 
   window.addEventListener('message', (e) => {
     if (e.data === 'MUTE ME') {
-      const muteButton = document.querySelector('.btn.robots-btn-mic-mute.visible');
+      const muteButton = document.querySelector('.robots-btn-mic-mute.visible');
       if (muteButton) {
         muteButton.click();
       }
@@ -15,13 +15,14 @@ function start() {
 
     if (e.data === 'PNP') {
       console.log('Enabling pnp!');
-      const partnerVideo = document.querySelector('video');
-      if (partnerVideo) partnerVideo.requestPictureInPicture();
+      const partnerVideo = document.querySelector('.robots-btn-speaker-enter-pip');
+      if (partnerVideo) partnerVideo.click();
     }
 
-    if (e.data === 'EXIT PNP') {
+    if (e.data === 'EXITPNP') {
       console.log('Disabling pnp!');
-      document.exitPictureInPicture();
+      const partnerVideo = document.querySelector('.robots-btn-speaker-leave-pip');
+      if (partnerVideo) partnerVideo.click();
     }
   });
 }

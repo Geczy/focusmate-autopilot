@@ -20,11 +20,12 @@ function start() {
 
     // We unmuted, unmute them too if they wanna talk
     if (!isMuted.me) {
+      const frame = document.querySelector('iframe[src*="daily.co"]');
+      if (frame) frame.contentWindow.postMessage('EXITPNP', '*');
+
       console.log('We are unmuted, unmute them too if they wanna talk');
       const partnerAudio = document.querySelector('.audioTracks > audio');
       if (partnerAudio) {
-        const frame = document.querySelector('iframe[src*="daily.co"]');
-        if (frame) frame.contentWindow.postMessage('EXIT PNP', '*');
         partnerAudio.muted = false;
         const muteIcon = document.querySelector('.mic.static');
         if (muteIcon) {
@@ -36,11 +37,11 @@ function start() {
     }
 
     if (isMuted.me) {
-      console.log('We muted, so force mute them too');
-      const partnerAudio = document.querySelector('.audioTracks > audio');
       const frame = document.querySelector('iframe[src*="daily.co"]');
       if (frame) frame.contentWindow.postMessage('PNP', '*');
 
+      console.log('We muted, so force mute them too');
+      const partnerAudio = document.querySelector('.audioTracks > audio');
       if (partnerAudio) {
         partnerAudio.muted = true;
         const muteIcon = document.querySelector('.mic.static');
