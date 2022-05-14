@@ -1,6 +1,6 @@
 /*global chrome*/
 import React from 'react';
-import { Radio, RadioGroup } from '@material-ui/core';
+import { Radio, RadioGroup, TextField } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -42,19 +42,19 @@ export default function SoundRadioForm() {
   React.useEffect(() => {
     chrome?.storage?.sync?.get(['sound'], (result) => {
       let url = result.sound;
-      if (!result.sound || !sampleAudios.find((a) => a.url === result.sound)) {
-        console.log('setting a default');
+
+      // Set storage default sound to first sample
+      if (!result.sound) {
         url = sampleAudios[0].url;
         setStorage(url);
       }
+
       setValue(url);
     });
   }, []);
 
   const setStorage = (soundVal) => {
-    chrome?.storage?.sync?.set({ sound: soundVal }, () => {
-      console.log(`sound is set to ${soundVal}`);
-    });
+    chrome?.storage?.sync?.set({ sound: soundVal });
     setValue(soundVal);
   };
 
@@ -89,6 +89,18 @@ export default function SoundRadioForm() {
             )}
           </span>
         ))}
+        <TextField
+          onChange={selectSound}
+          type="url"
+          name="sound-file"
+          label="Your own link to an mp3 file"
+          value={value}
+        />
+        {!sampleAudios.find(({ url }) => url === value) && (
+          <audio autoPlay controls src={value}>
+            Your browser does not support the audio element.
+          </audio>
+        )}
       </RadioGroup>
     </FormControl>
   );
