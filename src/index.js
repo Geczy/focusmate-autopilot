@@ -28,19 +28,17 @@ function handleTimeChange(title) {
     return;
   }
 
-  const secondsLeft = getSecondsRemaining(title);
+  // Don't play start sound if you've already joined the session
+  if (url.includes('/session')) return;
 
+  // Only play sound for starting. Not ending, not finished
+  if (!title.includes('until start')) return;
+
+  const secondsLeft = getSecondsRemaining(title);
   chrome.storage.sync.get(null, (result) => {
     const { playAtSecond, sound } = result;
 
-    // Play at end
-    // TODO make this a setting
-    if (title.includes('Finished!')) {
-      playSound(sound);
-      return;
-    }
-
-    // Play at x seconds
+    // Play at x seconds before start
     if (parseInt(playAtSecond) === secondsLeft) {
       playSound(sound);
       return;

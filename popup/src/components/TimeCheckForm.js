@@ -1,7 +1,7 @@
 /*global chrome*/
-import React, { useEffect } from "react";
-import { FormControl, TextField } from "@material-ui/core";
-import { useStyles } from "./SoundRadioForm";
+import React, { useEffect } from 'react';
+import { FormControl, TextField } from '@material-ui/core';
+import { useStyles } from './SoundRadioForm';
 
 export default function TimeCheckForm() {
   const classes = useStyles();
@@ -9,17 +9,14 @@ export default function TimeCheckForm() {
   const [playAtSecond, setPlayAtSecond] = React.useState(20);
 
   useEffect(() => {
-    chrome?.storage?.sync?.get(["playAtSecond"], (result) => {
-      console.log('Test useEffect', result)
+    chrome?.storage?.sync?.get(['playAtSecond'], (result) => {
       setPlayAtSecond(result.playAtSecond || 20);
     });
   }, []);
 
   const handleTimeChoice = (event) => {
     const { value } = event.target;
-    chrome?.storage?.sync?.set({ playAtSecond: value }, () => {
-      console.log(`time is set to ${value}`)
-    });
+    chrome?.storage?.sync?.set({ playAtSecond: value });
     setPlayAtSecond(value);
   };
 
