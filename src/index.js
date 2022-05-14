@@ -32,8 +32,11 @@ function handleTimeChange(title) {
   if (url.includes('/session') && title.includes('until start')) return;
 
   const secondsLeft = getSecondsRemaining(title);
-  chrome.storage.sync.get(null, (result) => {
-    const { playAtSecond, sound } = result;
+  chrome.storage.sync.get(['playAtSecond', 'sound'], ({ playAtSecond, sound }) => {
+    // Some defaults if they haven't opened the popup yet
+    // Chrome onInstalled event listener is not reliable so have to set it here
+    if (!playAtSecond) playAtSecond = 20;
+    if (!sound) sound = 'https://mgates.me/mp3/320654_5260872-lq.mp3';
 
     // Play at x seconds before start or end
     if (parseInt(playAtSecond) === secondsLeft) {
