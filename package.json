@@ -1,6 +1,6 @@
 {
   "name": "focusmate-autopilot",
-  "version": "7.2.2",
+  "version": "7.2.3",
   "description": "Don't waste any more time doing manual tasks on Focusmate. Autopilot will do it for you.",
   "main": "src/index.js",
   "repository": "https://github.com/Geczy/focusmate-autopilot.git",
