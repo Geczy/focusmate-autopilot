@@ -7,6 +7,7 @@ Making your life easier
 * Notify sounds
   * Not in a session, 20s before one starts
   * While in a session, 20s before it ends
+  * Set your own custom notification sound to any .mp3 link
 * Picture-in-picture
   * Automatically turns on when you mute
   * Turns off when you unmute
