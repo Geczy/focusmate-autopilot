@@ -14,8 +14,6 @@ Making your life easier
 * When you mute, will force-mute the other person
   * Does not mute the tab, so finished sound will still play! Only mutes their mic
 
----
-
 ## Local development
 
 ### Popup
@@ -36,7 +34,3 @@ I like using https://chrome.google.com/webstore/detail/extensions-reloader/fimgf
 1. Drag `dist` folder onto `chrome://extensions` page
 
 You don't have to run yarn build when making a change, just reload the extension then reload focusmate.com to see it reflected. Using https://chrome.google.com/webstore/detail/extensions-reloader/fimgfedafeadlieiabdeeaodndnlbhid will reload your focusmate.com page for you if you enable it in options
-
-## Current Features
-
-Coming soon
