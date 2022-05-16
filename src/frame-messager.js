@@ -1,30 +1,36 @@
-function start() {
-  if (!window.location.href.includes('daily.co')) {
-    return;
-  }
+// Enable picture-in-picture
+export const TURN_ON_PNP = 'turn-on-pnp';
 
-  console.log('Running in frame', window.location.href);
+// Disable picture-in-picture
+export const TURN_OFF_PNP = 'turn-off-pnp';
+
+// Manually click the mute button
+// Currently unused
+export const SELF_MUTE = 'self-mute';
+
+function clickElement(selector) {
+  const elementToClick = document.querySelector(selector);
+  if (elementToClick) elementToClick.click();
+}
+
+const selectorToClick = {
+  SELF_MUTE: '.robots-btn-mic-mute.visible',
+
+  TURN_ON_PNP: '.robots-btn-speaker-enter-pip',
+
+  TURN_OFF_PNP: '.robots-btn-speaker-leave-pip'
+};
+
+function start() {
+  // This should only run in the iframe on focusmate
+  // The iframe contains video / audio controls
+  if (!window.location.href.includes('daily.co')) return;
 
   window.addEventListener('message', (e) => {
-    if (e.data === 'MUTE ME') {
-      const muteButton = document.querySelector('.robots-btn-mic-mute.visible');
-      if (muteButton) {
-        muteButton.click();
-      }
-    }
-
-    if (e.data === 'PNP') {
-      console.log('Enabling pnp!');
-      const partnerVideo = document.querySelector('.robots-btn-speaker-enter-pip');
-      if (partnerVideo) partnerVideo.click();
-    }
-
-    if (e.data === 'EXITPNP') {
-      console.log('Disabling pnp!');
-      const partnerVideo = document.querySelector('.robots-btn-speaker-leave-pip');
-      if (partnerVideo) partnerVideo.click();
-    }
+    const selector = selectorToClick[e.data];
+    if (selector) clickElement(selector);
   });
 }
 
+// We do a function so we can call `return` easily and keep code clean
 start();

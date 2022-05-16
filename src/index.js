@@ -16,6 +16,33 @@ function getSecondsRemaining(title) {
   }
 }
 
+// Some defaults if they haven't opened the popup yet
+// Chrome onInstalled event listener is not reliable so have to set it here
+export const defaultSettings = {
+  playAtStart: true,
+  playInSession: true,
+  playAtEnd: true,
+  autoMute: true,
+  autoPNP: true,
+  playAtSecond: 20,
+  sound: 'https://mgates.me/mp3/320654_5260872-lq.mp3'
+};
+
+// Little helper to get defaults for a setting
+export const convertDefaults = (settings) => {
+  const convertedValues = {};
+  Object.keys(settings).forEach((key) => {
+    const value = settings[key];
+
+    // Chrome storage will return undefined if the user hasn't touched the setting yet
+    if (value === undefined) convertedValues[key] = defaultSettings[key];
+    else convertedValues[key] = value;
+  });
+
+  return convertedValues;
+};
+
+// Called any time the page title changes (it counts down to / from a session every second)
 function handleTimeChange(title) {
   const url = window.location.href;
 
@@ -28,15 +55,15 @@ function handleTimeChange(title) {
     return;
   }
 
-  // Don't play start sound if you've already joined the session
-  if (url.includes('/session') && title.includes('until start')) return;
-
   const secondsLeft = getSecondsRemaining(title);
-  chrome.storage.sync.get(['playAtSecond', 'sound'], ({ playAtSecond, sound }) => {
-    // Some defaults if they haven't opened the popup yet
-    // Chrome onInstalled event listener is not reliable so have to set it here
-    if (!playAtSecond) playAtSecond = 20;
-    if (!sound) sound = 'https://mgates.me/mp3/320654_5260872-lq.mp3';
+  chrome.storage.sync.get(Object.keys(defaultSettings), (result) => {
+    const { playInSession, playAtStart, playAtEnd, playAtSecond, sound } = convertDefaults(result);
+
+    // Don't play start sound if you've already joined the session
+    if (!playInSession && url.includes('/session') && title.includes('until start')) return;
+
+    if (!playAtStart && title.includes('until start')) return;
+    if (!playAtEnd && title.includes('until end')) return;
 
     // Play at x seconds before start or end
     if (parseInt(playAtSecond) === secondsLeft) {
