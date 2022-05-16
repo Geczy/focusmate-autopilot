@@ -13,9 +13,9 @@ function App() {
     <div>
       <ThemeProvider theme={theme}>
         <Title />
-        <TogglesForm />
         <TimeCheckForm />
         <SoundRadioForm />
+        <TogglesForm />
       </ThemeProvider>
     </div>
   );
