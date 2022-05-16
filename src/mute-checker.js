@@ -60,7 +60,10 @@ function start() {
   // No need to confuse our script, just take the last event as the most accurate one
   const handleMuteEvent = debounce(function () {
     chrome.storage.sync.get(Object.keys(defaultSettings), (result) => {
-      const { autoPNP, autoMute } = convertDefaults(result);
+      const { autoPNP, autoMute } = convertDefaults({
+        ...defaultSettings,
+        ...result
+      });
 
       // We unmuted, unmute them too if they wanna talk
       if (!mutedPerson.self) {

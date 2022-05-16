@@ -33,7 +33,6 @@ export const convertDefaults = (settings) => {
   const convertedValues = {};
   Object.keys(settings).forEach((key) => {
     const value = settings[key];
-
     // Chrome storage will return undefined if the user hasn't touched the setting yet
     if (value === undefined) convertedValues[key] = defaultSettings[key];
     else convertedValues[key] = value;
@@ -57,7 +56,10 @@ function handleTimeChange(title) {
 
   const secondsLeft = getSecondsRemaining(title);
   chrome.storage.sync.get(Object.keys(defaultSettings), (result) => {
-    const { playInSession, playAtStart, playAtEnd, playAtSecond, sound } = convertDefaults(result);
+    const { playInSession, playAtStart, playAtEnd, playAtSecond, sound } = convertDefaults({
+      ...defaultSettings,
+      ...result
+    });
 
     // Don't play start sound if you've already joined the session
     if (!playInSession && url.includes('/session') && title.includes('until start')) return;

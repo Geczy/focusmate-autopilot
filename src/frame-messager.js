@@ -9,16 +9,18 @@ export const TURN_OFF_PNP = 'turn-off-pnp';
 export const SELF_MUTE = 'self-mute';
 
 function clickElement(selector) {
+  if (!selector) return;
+
   const elementToClick = document.querySelector(selector);
   if (elementToClick) elementToClick.click();
 }
 
 const selectorToClick = {
-  SELF_MUTE: '.robots-btn-mic-mute.visible',
+  [SELF_MUTE]: '.robots-btn-mic-mute.visible',
 
-  TURN_ON_PNP: '.robots-btn-speaker-enter-pip',
+  [TURN_ON_PNP]: '.robots-btn-speaker-enter-pip',
 
-  TURN_OFF_PNP: '.robots-btn-speaker-leave-pip'
+  [TURN_OFF_PNP]: '.robots-btn-speaker-leave-pip'
 };
 
 function start() {
@@ -27,8 +29,7 @@ function start() {
   if (!window.location.href.includes('daily.co')) return;
 
   window.addEventListener('message', (e) => {
-    const selector = selectorToClick[e.data];
-    if (selector) clickElement(selector);
+    clickElement(selectorToClick[e.data]);
   });
 }
 
