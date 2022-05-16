@@ -5,7 +5,7 @@
   "homepage_url": "https://github.com/Geczy/focusmate-autopilot/",
   "description": "Not just an alarm for focusmate!",
   "author": "A Lonely Coder",
-  "version": "7.3.0",
+  "version": "7.3.1",
   "action": {
     "default_popup": "popup/index.html",
     "default_title": "Open the options"
