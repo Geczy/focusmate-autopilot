@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { Checkbox, FormControl, FormLabel } from '@material-ui/core';
 
 const toggles = {
-  playAtStart: { label: 'Play sound before start of session', defaultValue: true },
-  playInSession: { label: 'Play start sound when already joined', defaultValue: true },
-  playAtEnd: { label: 'Play sound before end of session', defaultValue: true },
+  playAtStart: { label: 'Play start sound before session begins', defaultValue: true },
+  playInSession: { label: 'Play start sound even if already in session', defaultValue: true },
+  playAtEnd: { label: 'Play end sound before session ends', defaultValue: true },
   autoMute: { label: 'Auto mute partner when I mute', defaultValue: true },
   autoPNP: { label: 'Auto enable picture-in-picture when I mute', defaultValue: true }
 };
